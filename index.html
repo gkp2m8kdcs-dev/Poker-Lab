@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Poker Lab — Your Offline Texas Hold'em Study Companion</title>
+<meta name="description" content="Poker Lab is an offline Texas Hold'em study companion: hand strength, equity compare, outs, pot odds, hand trainer, tournament clock, and a private journal. No real-money play, no data collection." />
+<meta name="theme-color" content="#0a1a2f" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a1a2f'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='38' font-family='Georgia' fill='%23d4af37' font-weight='bold'%3EP%3C/text%3E%3C/svg%3E" />
+<style>
+  :root {
+    --bg: #0a1a2f;
+    --bg-2: #0e2240;
+    --panel: #112a4d;
+    --gold: #d4af37;
+    --gold-soft: #f0d57a;
+    --text: #e8eef7;
+    --muted: #9bb0c8;
+    --line: rgba(212, 175, 55, 0.18);
+    --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: radial-gradient(ellipse at top, #112a4d 0%, var(--bg) 60%) fixed;
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { color: var(--gold-soft); }
+
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10, 26, 47, 0.85);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 14px 22px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: 0.4px; }
+  .brand-mark {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--gold), #8c6d1a);
+    color: #0a1a2f; display: grid; place-items: center; font-family: Georgia, serif; font-weight: 800;
+  }
+  .nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .nav-links a { color: var(--text); font-size: 14px; opacity: 0.85; }
+  .nav-links a:hover { color: var(--gold); opacity: 1; }
+
+  .hero {
+    max-width: 1100px; margin: 0 auto;
+    padding: 80px 22px 60px;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-block; padding: 6px 14px; border: 1px solid var(--line);
+    border-radius: 999px; color: var(--gold-soft); font-size: 12px; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.1; margin: 0 0 18px;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 70%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-weight: 800;
+  }
+  .sub { color: var(--muted); max-width: 720px; margin: 0 auto 28px; font-size: 18px; }
+  .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 12px 22px; border-radius: 12px; font-weight: 700; font-size: 15px;
+    border: 1px solid transparent; transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+    cursor: pointer; display: inline-block;
+  }
+  .btn-primary { background: linear-gradient(135deg, var(--gold), #b9912a); color: #0a1a2f; }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--text); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-art {
+    margin: 50px auto 0; max-width: 900px;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; perspective: 600px;
+  }
+  .card-art {
+    aspect-ratio: 2 / 3; border-radius: 12px; box-shadow: var(--shadow);
+    background: #fff; color: #111; position: relative; padding: 10px; font-weight: 800; font-family: Georgia, serif;
+    transform: rotate(-3deg);
+  }
+  .card-art:nth-child(2) { transform: rotate(-1deg) translateY(-6px); background: #fff; }
+  .card-art:nth-child(3) { transform: rotate(0deg) translateY(-12px); background: linear-gradient(160deg, #fff, #fff8e1); border: 2px solid var(--gold); }
+  .card-art:nth-child(4) { transform: rotate(2deg) translateY(-6px); }
+  .card-art:nth-child(5) { transform: rotate(4deg); }
+  .card-art .rank { font-size: 22px; }
+  .card-art .suit { font-size: 30px; position: absolute; right: 10px; top: 10px; }
+  .card-art .center { position: absolute; inset: 0; display: grid; place-items: center; font-size: 56px; opacity: 0.85; }
+  .red { color: #c0392b; }
+
+  section { padding: 70px 22px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h2 { font-size: clamp(26px, 3.4vw, 36px); margin: 0 0 12px; font-weight: 800; }
+  h2 .accent { color: var(--gold); }
+  .lead { color: var(--muted); max-width: 700px; margin: 0 0 40px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .feature {
+    background: linear-gradient(180deg, var(--panel) 0%, rgba(17,42,77,0.4) 100%);
+    border: 1px solid var(--line); border-radius: 16px; padding: 22px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .feature:hover { transform: translateY(-3px); border-color: var(--gold); }
+  .feature h3 { margin: 0 0 8px; font-size: 18px; color: var(--gold-soft); }
+  .feature p { margin: 0; color: var(--muted); font-size: 15px; }
+  .feature .ico {
+    width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+    background: rgba(212,175,55,0.12); color: var(--gold); margin-bottom: 12px; font-size: 20px;
+  }
+
+  .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .pillar {
+    border: 1px solid var(--line); border-radius: 14px; padding: 20px;
+    background: rgba(17,42,77,0.35);
+  }
+  .pillar h4 { margin: 0 0 6px; color: var(--gold-soft); }
+
+  .screenshot {
+    margin: 30px auto 0; max-width: 900px; border-radius: 18px; overflow: hidden;
+    border: 1px solid var(--line); box-shadow: var(--shadow); background: #000;
+  }
+  .screenshot img { width: 100%; display: block; }
+
+  .faq { max-width: 820px; margin: 0 auto; }
+  .qa { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  .qa summary {
+    cursor: pointer; font-weight: 700; color: var(--text); list-style: none;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary::after { content: "+"; color: var(--gold); font-size: 22px; transition: transform 0.2s ease; }
+  .qa[open] summary::after { content: "−"; }
+  .qa p { color: var(--muted); margin: 10px 0 0; }
+
+  footer {
+    border-top: 1px solid var(--line); margin-top: 40px;
+    background: rgba(8, 18, 33, 0.6);
+  }
+  .foot {
+    max-width: 1100px; margin: 0 auto; padding: 40px 22px;
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 24px;
+  }
+  .foot h5 { color: var(--gold-soft); margin: 0 0 10px; font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .foot ul { list-style: none; padding: 0; margin: 0; }
+  .foot li { margin: 6px 0; }
+  .foot a { color: var(--muted); }
+  .foot a:hover { color: var(--gold); }
+  .foot p { color: var(--muted); font-size: 14px; margin: 0; }
+  .copy { text-align: center; color: var(--muted); font-size: 13px; padding: 18px 22px; border-top: 1px solid var(--line); }
+
+  @media (max-width: 760px) {
+    .foot { grid-template-columns: 1fr 1fr; }
+    .nav-links { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">P</div>
+      <span>Poker Lab</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#why">Why Offline</a>
+      <a href="#faq">FAQ</a>
+      <a href="support.html">Support</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">Texas Hold'em · Study Companion</span>
+  <h1>Sharpen your poker math.<br/>Stay 100% offline.</h1>
+  <p class="sub">
+    Poker Lab is a focused study app for Texas Hold'em: hand strength, equity, outs, pot odds, a 169-hand trainer, a tournament clock, and a private journal — all in one offline package.
+  </p>
+  <div class="cta">
+    <a class="btn btn-primary" href="#features">Explore the Tools</a>
+    <a class="btn btn-ghost" href="support.html">Contact Support</a>
+  </div>
+
+  <div class="hero-art" aria-hidden="true">
+    <div class="card-art"><div class="rank">A</div><div class="suit red">♥</div><div class="center red">♥</div></div>
+    <div class="card-art"><div class="rank">K</div><div class="suit red">♦</div><div class="center red">♦</div></div>
+    <div class="card-art"><div class="rank">Q</div><div class="suit">♠</div><div class="center">♠</div></div>
+    <div class="card-art"><div class="rank">J</div><div class="suit red">♥</div><div class="center red">♥</div></div>
+    <div class="card-art"><div class="rank">10</div><div class="suit">♣</div><div class="center">♣</div></div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <h2>Everything you need to <span class="accent">study the game</span></h2>
+    <p class="lead">Eight purpose-built tools. One calm, dark interface. No ads, no sign-ups, no data collection.</p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="ico">🃏</div>
+        <h3>Hand Strength</h3>
+        <p>Score any 5-to-7 card combination. See the best 5-card hand, its rank, and rarity at a glance.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">⚖️</div>
+        <h3>Equity Compare</h3>
+        <p>Fast Monte Carlo simulation that estimates the win percentage of two hands against an optional board.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">🎯</div>
+        <h3>Outs &amp; Draws</h3>
+        <p>Count the cards that improve your hand on the turn and river, with an approximate hit rate.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">💰</div>
+        <h3>Pot Odds</h3>
+        <p>Compute the equity you need to call a bet of any size — the foundation of every +EV decision.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">📚</div>
+        <h3>Hand Trainer</h3>
+        <p>Drill preflop decisions: identify hands, count outs, rank boards, play or fold in position. Streak &amp; accuracy saved locally.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">⏱️</div>
+        <h3>Tournament Clock</h3>
+        <p>Three blind ladders — Standard, Turbo, Deep Stack. Adjustable level lengths, last-10-seconds audio ticks, pause/resume.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">📓</div>
+        <h3>Journal</h3>
+        <p>Save practice hands: position, hole cards, board, result, pot, notes, and an optional photo. Searchable and filterable.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">📊</div>
+        <h3>Reference Charts</h3>
+        <p>169 starting hand chart, full hand rankings, and a betting rounds reference — all one tap away.</p>
+      </div>
+    </div>
+
+    <div class="screenshot">
+      <img src="build/screenshot_home.png" alt="Poker Lab home screen" />
+    </div>
+  </div>
+</section>
+
+<section id="why" style="background: rgba(8,18,33,0.4);">
+  <div class="container">
+    <h2>Built for <span class="accent">focused study</span>, not for gambling</h2>
+    <p class="lead">Poker Lab is a 100% educational tool. There is no real-money play, no in-app wallet, no jackpots, no random rewards. Just the math.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <h4>No real money</h4>
+        <p class="muted" style="color: var(--muted); margin: 0;">No bets, no stakes, no wagering. This is a calculator, trainer, and journal — full stop.</p>
+      </div>
+      <div class="pillar">
+        <h4>Offline first</h4>
+        <p style="color: var(--muted); margin: 0;">Every tool runs on-device. No network required after install. Your data never leaves your phone.</p>
+      </div>
+      <div class="pillar">
+        <h4>No tracking</h4>
+        <p style="color: var(--muted); margin: 0;">No analytics SDKs, no ad networks, no third-party scripts. Open the app and study.</p>
+      </div>
+      <div class="pillar">
+        <h4>Your data, your call</h4>
+        <p style="color: var(--muted); margin: 0;">Wipe everything in one tap from Settings. See exactly what we store on our Privacy page.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <h2>Frequently asked <span class="accent">questions</span></h2>
+    <div class="faq" style="margin-top: 30px;">
+      <details class="qa">
+        <summary>Does Poker Lab involve real-money gambling?</summary>
+        <p>No. Poker Lab is an educational tool only. There are no bets, no wagering, no jackpots, and no in-app purchases related to gameplay.</p>
+      </details>
+      <details class="qa">
+        <summary>Does Poker Lab collect any data about me?</summary>
+        <p>No. The app does not include analytics or tracking SDKs, does not contact any server for gameplay data, and does not sell or share anything. See the <a href="privacy.html">Privacy Policy</a>.</p>
+      </details>
+      <details class="qa">
+        <summary>What information do I need to provide to use the app?</summary>
+        <p>None. You can open Poker Lab and use every tool without signing up, creating an account, or sharing contact details.</p>
+      </details>
+      <details class="qa">
+        <summary>Where is my journal data stored?</summary>
+        <p>All journal entries, photos, scores, and timer state are stored locally on your device. You can clear everything in Settings.</p>
+      </details>
+      <details class="qa">
+        <summary>How do I get support?</summary>
+        <p>Email us at <a href="mailto:litzybuziemextn527@gmail.com">litzybuziemextn527@gmail.com</a>. Visit the <a href="support.html">Support page</a> for full details.</p>
+      </details>
+      <details class="qa">
+        <summary>Is Poker Lab suitable for beginners?</summary>
+        <p>Yes. The hand rankings chart, pot odds reference, and preflop trainer are designed to help new players build a solid foundation.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>
+      <div class="brand" style="margin-bottom: 10px;">
+        <div class="brand-mark">P</div>
+        <span>Poker Lab</span>
+      </div>
+      <p>A focused, offline Texas Hold'em study companion. Hand math, training, and a private journal — nothing more.</p>
+    </div>
+    <div>
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#why">Why Offline</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Help</h5>
+      <ul>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="terms.html">Terms of Use</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:litzybuziemextn527@gmail.com">litzybuziemextn527@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">© 2026 Poker Lab. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Support — Poker Lab</title>
+<meta name="description" content="Get help with Poker Lab: contact support, frequently asked questions, troubleshooting, and how-to guides." />
+<meta name="theme-color" content="#0a1a2f" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a1a2f'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='38' font-family='Georgia' fill='%23d4af37' font-weight='bold'%3EP%3C/text%3E%3C/svg%3E" />
+<style>
+  :root { --bg:#0a1a2f; --bg-2:#0e2240; --panel:#112a4d; --gold:#d4af37; --gold-soft:#f0d57a; --text:#e8eef7; --muted:#9bb0c8; --line:rgba(212,175,55,0.18); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: radial-gradient(ellipse at top, #112a4d 0%, var(--bg) 60%) fixed; color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  a { color: var(--gold); }
+  .nav { position: sticky; top: 0; z-index: 50; background: rgba(10, 26, 47, 0.85); backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid var(--line); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; }
+  .brand-mark { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--gold), #8c6d1a); color: #0a1a2f; display: grid; place-items: center; font-family: Georgia, serif; font-weight: 800; }
+  .nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .nav-links a { color: var(--text); font-size: 14px; opacity: 0.85; }
+  .nav-links a:hover { color: var(--gold); opacity: 1; }
+
+  .hero { max-width: 880px; margin: 0 auto; padding: 60px 22px 30px; text-align: center; }
+  .eyebrow { display: inline-block; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--gold-soft); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 18px; }
+  h1 { font-size: clamp(32px, 4.5vw, 48px); margin: 0 0 14px; background: linear-gradient(135deg, #fff, var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800; }
+  .sub { color: var(--muted); max-width: 640px; margin: 0 auto; font-size: 17px; }
+
+  main { max-width: 920px; margin: 0 auto; padding: 20px 22px 60px; }
+  .card { background: rgba(17,42,77,0.45); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+  .card h2 { margin: 0 0 10px; color: var(--gold-soft); font-size: 22px; }
+  .card h3 { color: var(--gold-soft); margin: 18px 0 6px; font-size: 16px; }
+  .email-box { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-radius: 12px; background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.04)); border: 1px solid var(--line); flex-wrap: wrap; }
+  .email-box .ico { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: rgba(212,175,55,0.18); color: var(--gold); font-size: 20px; }
+  .email-box a { font-weight: 700; font-size: 17px; }
+  .email-box .label { color: var(--muted); font-size: 13px; }
+  .qa { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  .qa:last-child { border-bottom: 0; }
+  .qa summary { cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary::after { content: "+"; color: var(--gold); font-size: 22px; }
+  .qa[open] summary::after { content: "−"; }
+  .qa p, .qa li { color: var(--muted); margin: 8px 0 0; }
+  .steps { counter-reset: step; list-style: none; padding: 0; margin: 0; }
+  .steps li { counter-increment: step; padding: 10px 0 10px 36px; position: relative; color: var(--muted); }
+  .steps li::before { content: counter(step); position: absolute; left: 0; top: 8px; width: 26px; height: 26px; border-radius: 50%; background: rgba(212,175,55,0.18); color: var(--gold); display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+
+  footer { border-top: 1px solid var(--line); margin-top: 30px; background: rgba(8,18,33,0.6); }
+  .foot { max-width: 1100px; margin: 0 auto; padding: 30px 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; color: var(--muted); font-size: 14px; }
+  .foot a { color: var(--muted); }
+  .foot a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">P</div>
+      <span>Poker Lab</span>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="support.html">Support</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">Support Center</span>
+  <h1>How can we help?</h1>
+  <p class="sub">Find quick answers below, or reach the Poker Lab team directly by email. We read every message and reply as soon as we can.</p>
+</section>
+
+<main>
+  <div class="card">
+    <h2>Contact us</h2>
+    <p style="color: var(--muted); margin: 0 0 14px;">For bug reports, feature requests, account-free help, or any other question, email our support team.</p>
+    <div class="email-box">
+      <div class="ico">✉️</div>
+      <div style="flex: 1; min-width: 220px;">
+        <div class="label">Support email</div>
+        <a href="mailto:litzybuziemextn527@gmail.com">litzybuziemextn527@gmail.com</a>
+      </div>
+      <a class="btn" style="background: linear-gradient(135deg, var(--gold), #b9912a); color: #0a1a2f; padding: 10px 18px; border-radius: 10px; font-weight: 700;" href="mailto:litzybuziemextn527@gmail.com?subject=Poker%20Lab%20Support">Send email</a>
+    </div>
+    <p style="color: var(--muted); font-size: 14px; margin: 14px 0 0;">Please include your iOS version, device model, and a short description of the issue. Screenshots are always helpful.</p>
+  </div>
+
+  <div class="card">
+    <h2>Frequently asked questions</h2>
+
+    <details class="qa" open>
+      <summary>How do I reset all of my data?</summary>
+      <p>Open the app, go to <strong>Settings → Reset / Clear All Data</strong>, and confirm. This wipes journal entries, photos, trainer scores, and timer state. The action is permanent and cannot be undone.</p>
+    </details>
+
+    <details class="qa">
+      <summary>Where is my journal data stored?</summary>
+      <p>All journal entries, photos, and trainer progress are stored locally in the app's sandbox on your device. Nothing is uploaded to a server. Uninstalling the app removes the data with it.</p>
+    </details>
+
+    <details class="qa">
+      <summary>Can I use the app without an internet connection?</summary>
+      <p>Yes. Poker Lab is fully offline. Every tool — including the equity simulator and tournament clock — works without any network connection.</p>
+    </details>
+
+    <details class="qa">
+      <summary>The app is asking for camera / photo access. Is that required?</summary>
+      <p>Only if you want to attach a photo to a journal entry. You can deny the permission and continue using every other feature. Permissions can be changed anytime in iOS Settings.</p>
+    </details>
+
+    <details class="qa">
+      <summary>How do I attach a photo to a journal entry?</summary>
+      <ol class="steps">
+        <li>Open a journal entry, or create a new one from the Journal tab.</li>
+        <li>Tap the photo area and choose <strong>Take Photo</strong> or <strong>Choose from Library</strong>.</li>
+        <li>Grant the requested permission the first time. You can revoke it later in iOS Settings.</li>
+        <li>The image is saved with the entry on your device only.</li>
+      </ol>
+    </details>
+
+    <details class="qa">
+      <summary>How accurate is the equity compare tool?</summary>
+      <p>Equity Compare runs a fast Monte Carlo simulation against random opponent hands (or two hands of your choosing). It is a study aid, not a guarantee. Higher iteration counts give more stable numbers; the default is tuned for quick, useful results on a phone.</p>
+    </details>
+
+    <details class="qa">
+      <summary>How do I change the tournament clock level length?</summary>
+      <p>Open the <strong>Tournament Clock</strong> tab, tap the structure name (Standard / Turbo / Deep Stack), then adjust the level length with the stepper. The new length applies to the current and all following levels.</p>
+    </details>
+
+    <details class="qa">
+      <summary>The sound on the tournament clock is too quiet (or too loud)</summary>
+      <p>Use the in-app volume toggle in the Tournament Clock header, or adjust your device's media volume. The in-app setting is independent of the ringer/silent switch.</p>
+    </details>
+
+    <details class="qa">
+      <summary>Does Poker Lab have ads, in-app purchases, or subscriptions?</summary>
+      <p>No. The app is a single, paid (or free, depending on your store listing) download with no ads, no in-app purchases, and no subscriptions related to gameplay.</p>
+    </details>
+
+    <details class="qa">
+      <summary>The app crashes or behaves unexpectedly. What should I do?</summary>
+      <ol class="steps">
+        <li>Force-quit and reopen the app.</li>
+        <li>Make sure your iOS version is up to date (Settings → General → Software Update).</li>
+        <li>Reinstall the app (your local data will be lost — back up journal entries first if needed).</li>
+        <li>If the issue persists, email <a href="mailto:litzybuziemextn527@gmail.com">litzybuziemextn527@gmail.com</a> with a description and screenshot.</li>
+      </ol>
+    </details>
+
+    <details class="qa">
+      <summary>How do I request a feature or suggest an improvement?</summary>
+      <p>We'd love to hear it. Send your idea to <a href="mailto:litzybuziemextn527@gmail.com?subject=Poker%20Lab%20Feature%20Request">litzybuziemextn527@gmail.com</a> with the subject line "Feature Request". A short description and a use case help us prioritize.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>What to include in a support email</h2>
+    <p style="color: var(--muted); margin: 0 0 8px;">To help us reply faster, please include:</p>
+    <ul style="color: var(--muted);">
+      <li>Your device model (e.g., iPhone 14, iPad Air)</li>
+      <li>Your iOS version (Settings → General → About)</li>
+      <li>App version (Settings → About inside the app, if shown)</li>
+      <li>A short description of what happened and what you expected</li>
+      <li>A screenshot or short screen recording, if possible</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <div class="foot">
+    <div>© 2026 Poker Lab. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> ·
+      <a href="privacy.html">Privacy</a> ·
+      <a href="terms.html">Terms of Use</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
